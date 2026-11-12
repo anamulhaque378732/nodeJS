@@ -1,0 +1,11 @@
+
+
+// node install command --> npm init -y
+// typescript install command --> npm i -D typescript
+
+// tsconfig.json command --> npx tsc --init
+// type suggestion command --> npm install -D @types/node
+
+
+// incomming message
+// File organaization : three file 1. routes.ts( route handle) 2. controller ( controller handel). 3. service.ts (database operation)
