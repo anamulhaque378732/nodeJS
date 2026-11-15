@@ -8,4 +8,14 @@
 
 
 // Incomming message
-// File organaization : three file 1. routes.ts( route handle) 2. controller ( controller handel). 3. service.ts (database operation)
+
+// File organaization : three file 1. routes.ts( route handle) 2. controller ( controller handel). 3. service.ts (database operation, business logic)
+
+// Client request --> routes.ts --> controller.ts --> service.ts
+
+// method --> post, put, patcj, delete
+
+ //process.cwd()
+
+ //buffer()
+ //"utf-8"
