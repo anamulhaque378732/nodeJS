@@ -19,3 +19,16 @@
 
  //buffer()
  //"utf-8"
+ // all product get, single product get 
+ // CRUD --> Create --> Read --> Update --> Delete
+
+
+ // create something its insert something . HTTP request --> Post method
+
+ // create something --> HTTP Request --> Method: POST --> url : /product --> body {"name":"Product-1}
+// req.on 
+
+// req.on("end")
+
+
+// update --> PUT 
