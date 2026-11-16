@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { createProduct, productService } from "../service/productService";
 import type { IProduct } from "../types/product";
 import { bodyParser } from "../utils/parseBody";
+import { sendResponse } from "../utils/sendResponse";
 
 const productController = async (req: IncomingMessage, res: ServerResponse) => {
   // product --> get , post , put
@@ -16,31 +17,35 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
 
   // console.log(id);
 
-  // get all products
+  // Get all products
 
   if (url === "/products" && method === "GET") {
-    res.writeHead(200, { "Content-Type": "application/json" });
+    try {
+      const products = productService();
 
-    const products = productService();
-    res.end(
-      JSON.stringify({
-        message: "Product Retrived Successfully",
-        data: products,
-      }),
-    );
+      sendResponse(
+        res,
+        true,
+        200,
+        "Products  retrived  Successfully",
+        products,
+      );
+    } catch (error) {
+      sendResponse(res, true, 500, "Internal server error");
+    }
   } //sigle product get
   else if (method === "GET" && id !== null) {
-    res.writeHead(200, { "Content-Type": "application/json" });
-
     const products = productService();
     const product = products.find((p: IProduct) => p.id === id);
 
-    res.end(
-      JSON.stringify({
-        message: "Product Retrived Successfully",
-        data: product,
-      }),
-    );
+    if (!product) {
+      return sendResponse(res, false, 404, "Product not found");
+    }
+    try {
+      sendResponse(res, true, 200, "Product Retrived Successfully", product);
+    } catch (error) {
+      return sendResponse(res, false, 404, "Product not found");
+    }
   } else if (method === "POST" && url === "/products") {
     // "abcd"=> "a","b" , "c","d"
 
@@ -60,14 +65,17 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
 
     createProduct(products);
 
-    res.writeHead(201, { "Content-Type": "application/json" });
-
-    res.end(
-      JSON.stringify({
-        message: "Product  Created  Successfully",
-        data: newProduct,
-      }),
-    );
+    try {
+      sendResponse(
+        res,
+        true,
+        200,
+        "Product  Created  Successfully",
+        newProduct,
+      );
+    } catch (error) {
+      return sendResponse(res, false, 404, "Product not addeded");
+    }
   } else if (method === "PUT" && id !== null) {
     const body = await bodyParser(req);
 
@@ -78,29 +86,49 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     // console.log(index);
 
     if (index < 0) {
-      res.end(
-        JSON.stringify({
-          message: "Product  not   found",
-        }),
+      return sendResponse(res, false, 404, "Product not addeded");
+    }
+    // product =[{},{},{}]
+    // console.log(products[index]);
+    products[index] = { id: products[index].id, ...body };
+    createProduct(products);
+    try {
+      sendResponse(
+        res,
+        true,
+        200,
+        "Product updated  Successfully",
+        products[index],
       );
+    } catch (error) {
+      return sendResponse(res, false, 404, "Product not updated");
+    }
+  } else if (method === "DELETE" && id !== null) {
+    const body = await bodyParser(req);
+
+    const products = productService();
+
+    const index = products.findIndex((p: IProduct) => p.id === id);
+
+    if (index < 0) {
+      return sendResponse(res, false, 404, "Product not deleted");
     }
 
-    // product =[{},{},{}]
-
-    // console.log(products[index]);
-
-    products[index] = { id: products[index].id, ...body };
+    products.splice(index, 1);
 
     createProduct(products);
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-
-    res.end(
-      JSON.stringify({
-        message: "Product updated successfully ",
-        data: products[index],
-      }),
-    );
+    try {
+      sendResponse(
+        res,
+        true,
+        200,
+        "Product  delete   Successfully",
+        products[index],
+      );
+    } catch (error) {
+      return sendResponse(res, false, 404, "Product not deleted");
+    }
   }
 };
 
