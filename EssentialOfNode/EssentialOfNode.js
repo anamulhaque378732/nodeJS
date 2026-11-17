@@ -2,10 +2,11 @@
 // https://example-next.com
 
 /**
- *  3 part of a url
+ *  3 Part of a url
  * 1. Protocal (Rules and regulations) -->  url protocal
  * 1.1  HTTP --> Hyper Text Transfer Protocal
  * 1.2 https --> Hyper Text Transfer Protocal Secure
+ * 
  * 2. Domain name --> example-next.com
  *
  * 3. Resouce --(what data see you)
@@ -64,6 +65,7 @@
 /*/
 
 // Dependency of Node.js 1. V8 Engine. (Convert machine laguage) 2. LIBUV(Open sourse library. main work --> handle Asynchronous input output.
+
 // LIBUV : Give access by Node.js 1. Operating System. 2. File Read-Write. 3. Compression 4. Networking )
 
 /* Two part of LIBUV by node.js
@@ -73,6 +75,7 @@
 
 //  Node.js Follows Event Driven Architecture
 // Event loop : It is the heart of Node js which makes the asynchononus programming possible in node.js
+
 /** Event Loop
  * 1. Most of the tasks of node js happens in event loop
  * 2. Recieved events and execute callback associated with each callback function
@@ -88,6 +91,7 @@
  *
  *
  */
+
 /*** Multi Threaded Server
  * I/O Operation
  * CPU Operation
@@ -108,6 +112,7 @@
  */
 
 // **** Phases Of Event Loop (Event loop has 4 most important phases)
+
 /**
  * 1. Handle callback functions of expired timers (eg: setTimeOut())
  * 2. Handles calllback functions of I/O polling and I/O exucting (eg: Networking, file accesing ) 99% or out code get exexuted here
@@ -115,7 +120,7 @@
  * 4. Close callbcak after all execution
  */
 
-// *****  -Streams , Buffers & Modular Systems-
+// *****  Streams , Buffers & Modular Systems
 
 /**
  * Streams is little pices
@@ -135,8 +140,7 @@
  */
 
 // ---- Harnessing IIFE As The Ultimate module
+
 /***
  * IIFE --> Immediately Invoked Function Expression
  */
-
-
